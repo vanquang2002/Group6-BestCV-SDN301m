@@ -1,6 +1,7 @@
-const Report = require('../Model/Report')
+import { Report } from '../Model/Report';
+import mongoose from 'mongoose';
 
-exports.getAllReports = async (req, res) => {
+const getAllReports = async (req, res) => {
     try {
       const reports = await Report.find();
       res.json(reports);
@@ -9,7 +10,7 @@ exports.getAllReports = async (req, res) => {
     }
   };
   
-  exports.getReportByUserId = async (req, res) => {
+const getReportByUserId = async (req, res) => {
     try {
       const userId = req.params.userId;
       const reports = await Report.find({ userId });
@@ -19,7 +20,7 @@ exports.getAllReports = async (req, res) => {
     }
   };
   
-  exports.insertReport = async (req, res) => {
+const insertReport = async (req, res) => {
     try {
       const { userId, content } = req.body;
       const report = new Report({ userId, content, status: 'Pending' });
@@ -30,7 +31,7 @@ exports.getAllReports = async (req, res) => {
     }
   };
   
-  exports.updateReportStatus = async (req, res) => {
+const updateReportStatus = async (req, res) => {
     try {
       const reportId = req.params.reportId;
       const { status } = req.body;
@@ -41,7 +42,7 @@ exports.getAllReports = async (req, res) => {
     }
   };
   
-  exports.deleteReportById = async (req, res) => {
+const deleteReportById = async (req, res) => {
     try {
       const reportId = req.params.reportId;
       await Report.findByIdAndDelete(reportId);
@@ -50,3 +51,5 @@ exports.getAllReports = async (req, res) => {
       res.status(500).send(error.message);
     }
   };
+
+export {getAllReports, getReportByUserId, insertReport, updateReportStatus, deleteReportById}
